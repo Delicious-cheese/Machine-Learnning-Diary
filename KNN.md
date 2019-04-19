@@ -7,42 +7,29 @@
 
 # How to use it?
 ```python
-import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
-# 1. 数据
-raw_data_X = [[3.393533211, 2.331273381],
-              [3.110073483, 1.781539638],
-              [1.343808831, 3.368360954],
-              [3.582294042, 4.679179110],
-              [2.280362439, 2.866990263],
-              [7.423436942, 4.696522875],
-              [5.745051997, 3.533989803],
-              [9.172168622, 2.511101045],
-              [7.792783481, 3.424088941],
-              [7.939820817, 0.791637231]
-             ]
-raw_data_y = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+
+# 1.引入数据
+digits = datasets.load_digits()
+X = digits.data
+y = digits.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=666)
 
 
-# 2.转成numpy.array 方便矩阵运算， 并添加要预测的点x
+# 2.训练模型
+knn_clf = KNeighborsClassifier(n_neighbors=3)
+knn_clf.fit(X_train, y_train)
 
-X_train = np.array(raw_data_X)
-y_train = np.array(raw_data_y)
+# 3.预测
+y_predict = knn_clf.predict(x)
 
-x = np.array([8.093607318, 3.365731514])
-
-# 找3个相近的点
-kNN_clf = KNeighborsClassifier(n_neighbors=3)
-
-# 训练模型
-kNN_clf.fit(X_train, y_train)
-
-# 预测
-y = kNN_clf.predict(x.reshape(1,-1))
+# 4.准确率
+score = knn_clf.score(X_test, y_test)
 
 ```
 
-# Implement
 
 
